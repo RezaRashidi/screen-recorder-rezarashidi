@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.screen-recorder" path="/org/gnome/shell/extensions/screen-recorder/">
+    <key name="framerate" type="i">
+      <default>30</default>
+      <summary>Framerate</summary>
+      <description>The framerate for screen recording</description>
+    </key>
+    <key name="codec" type="s">
+      <default>'libx264'</default>
+      <summary>Codec</summary>
+      <description>The video codec for screen recording</description>
+    </key>
+    <key name="quality" type="s">
+      <default>'23'</default>
+      <summary>Quality</summary>
+      <description>The quality setting for screen recording</description>
+    </key>
+    <key name="preset" type="s">
+      <default>'ultrafast'</default>
+      <summary>Preset</summary>
+      <description>The encoding preset for screen recording</description>
+    </key>
+    <key name="destination-dir" type="s">
+        <default>''</default>
+      <summary>Destination Directory</summary>
+      <description>The directory where screen recordings are saved</description>
+    </key>
+    <key name="selected-monitor" type="i">
+      <default>1</default>
+      <summary>Number of Monitors</summary>
+      <description>The current number of monitors</description>
+    </key>
+    <key name="monitor-count" type="i">
+      <default>1</default>
+      <summary>Number of available monitors</summary>
+      <description>The current number of monitors available for recording</description>
+    </key>
+    <key name="auto-record" type="b">
+      <default>false</default>
+      <summary>Auto-record on startup</summary>
+      <description>Automatically start recording when the extension is enabled</description>
+    </key>
+        <key name="use-persian-format" type="b">
+      <default>false</default>
+      <summary>Use Persian date format</summary>
+      <description>Toggle to use Persian date format for file naming.</description>
+    </key>
+ <key name="use-hw-accel" type="b">
+      <default>false</default>
+      <summary>Use hardware acceleration</summary>
+      <description>Enable or disable hardware acceleration for video encoding</description>
+    </key>
+    <key name="hw-accel-method" type="s">
+      <default>'vaapi'</default>
+      <summary>Hardware acceleration method</summary>
+      <description>The hardware acceleration method to use (e.g., 'vaapi', 'nvenc', 'qsv')</description>
+    </key>
+    <key name="hw-accel-codec" type="s">
+      <default>'h264_vaapi'</default>
+      <summary>Hardware-accelerated codec</summary>
+      <description>The hardware-accelerated codec to use (e.g., 'h264_vaapi', 'h264_nvenc', 'h264_qsv')</description>
+    </key>
+  </schema>
+</schemalist>

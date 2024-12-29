@@ -1,0 +1,9 @@
+{
+  "name": "screen-recorder",
+  "description": "A simple screen recorder extension",
+  "version": 1,
+  "uuid": "screen-recorder@rezarashidi",
+  "shell-version": ["46"],
+  "settings-schema": "org.gnome.shell.extensions.screen-recorder",
+   "stylesheet": "stylesheet.css"
+}
