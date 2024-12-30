@@ -274,8 +274,8 @@ const ScreenRecorder = GObject.registerClass(
         homeDir,
         "Videos",
         "ScreenRecord",
-        `${month} ${year}`,
-        `${weekday} ${day}`,
+        `${year}-${numericMonth} ${month}`,
+        `${year}-${numericMonth}-${day} ${weekday}`,
       ]);
       // Ensure the destination directory exists
       const destDir = Gio.File.new_for_path(destinationDir);
@@ -339,20 +339,7 @@ const ScreenRecorder = GObject.registerClass(
         width = Math.max(1, width);
         height = Math.max(1, height);
         // Limit width and height to 4096 if hardware acceleration is used
-        if (useHwAccel) {
-          const aspectRatio = width / height;
-          if (width > 4096) {
-            width = 4096;
-            // height = Math.round(width / aspectRatio);
-          }
-          if (height > 4096) {
-            height = 4096;
-            // width = Math.round(height * aspectRatio);
-          }
-          log(
-            `[ScreenRecorder] Adjusted dimensions for hardware acceleration: ${width}x${height}`
-          );
-        }
+
       } else {
         // Record selected monitor
         const monitorIndex = Math.min(selectedMonitor, monitors.length - 1);
@@ -396,20 +383,32 @@ const ScreenRecorder = GObject.registerClass(
       ];
 
       if (useHwAccel) {
+
+
+        
         switch (hwAccelMethod) {
           case "vaapi":
             command.push("-vaapi_device", "/dev/dri/renderD128");
-            command.push("-vf", "format=nv12,hwupload");
+            if (width > 4096 || height > 4096) {
+              let scaleFilter = `scale=min(4096\\,iw):min(4096\\,ih):force_original_aspect_ratio=decrease`;
+              command.push("-vf", `${scaleFilter},format=nv12,hwupload`);
+            } else {
+              command.push("-vf", "format=nv12,hwupload");
+            }
+
+
             if (hwAccelCodec === "h264_vaapi") {
               command.push("-c:v", "h264_vaapi");
             } else {
               command.push("-c:v", "hevc_vaapi");
             }
+
+       
             command.push("-qp", "23"); // Adjusted QP value for better quality
             command.push("-rc_mode", "CQP"); // Constant QP mode
             command.push("-g", "250"); // Keyframe interval
             command.push("-bf", "2"); // Maximum 2 B-frames between I and P frames
-
+            
             break;
           case "nvenc":
             command.push("-hwaccel", "cuda");
@@ -523,7 +522,7 @@ const ScreenRecorder = GObject.registerClass(
           this._icon.icon_name = "media-record-symbolic";
           this._icon.set_style("");
           this._startStopItem.label.text = _("Start Recording");
-          Main.notifyError(_("Screen Recorder"), _("Recording stopped due to an error. Check the logs for more information."));
+          // Main.notifyError(_("Screen Recorder"), _("Recording stopped due to an error. Check the logs for more information."));
         }
     _restartRecording() {
       GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, () => {
